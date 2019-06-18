@@ -84,13 +84,15 @@ app.post('/login', (req, res) => {
 	console.log(body);
 	mysql(con => {
 		con.query('SELECT id FROM perfil WHERE email=? AND contrasena=?', [body.email, body.contrasena], (err, results) => {
-			if(err)return console.log(err);
+			if(err)return console.log('ERROR LOG LOGIN: ', err);
 			var id = (!results.length ? false : results[0].id);
 			con.release();
 			if(!id)return res.json({error: 'invalid_data'});
 			sec.create_save_token(id).then(token => {
+				console.log('TOKEN', token);
 				res.json({token: token});
 			}).catch(err => {
+				console.log('TOKEN ERROR', err);
 				res.json({error: 'internal_error'});
 			});
 		});
