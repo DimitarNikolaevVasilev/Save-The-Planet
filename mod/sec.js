@@ -35,8 +35,11 @@ module.exports = {
 	create_save_token(id_perfil, expiration){
 		return new Promise((resolve, reject) => {
 			module.exports.create_token(id_perfil, expiration).then(token => {
+				console.log('CREATE TOKEN AFTER SIGN ', token);
 				mysql(con => {
+					console.log('CREATE TOKEN AFTER MYSQL');
 					con.query('INSERT INTO token SET ?', {id_perfil: id_perfil, token: token}, (err, results) => {
+						console.log('CREATE TOKEN AFTER CON');
 						con.release();
 						if(err)return reject(err);
 						resolve(token);
