@@ -26,7 +26,10 @@ module.exports = {
 	create_token(id_perfil, expiration){
 		return new Promise((resolve, reject) => {
 			// 12 days of expiration
+			console.log('CREATE_TOKEN FUNCTION');
 			jwt.sign({id: id_perfil, exp: Math.floor(Date.now() / 1000 + (60 * 60 * 24 * 120))}, process.env.jwt_key, { algorithm: 'HS512'}, (err, token) => {
+				console.log('CREATE_TOKEN FUNCTION2', err, token);
+
 				if(err)return reject(err);
 				resolve(token);
 			});
