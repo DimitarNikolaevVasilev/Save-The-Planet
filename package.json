@@ -5,7 +5,7 @@
   "main": "app.js",
   "scripts": {
     "test": "node --inspect app.js",
-    "start": "node app.js"
+    "start": "node --inspect app.js"
   },
   "author": "Dimitar Nikolaev Vasilev",
   "license": "ISC",
