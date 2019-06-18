@@ -98,7 +98,7 @@ app.post('/login', (req, res) => {
 });
 
 
-app.post('/donar_new_arbol', sec.validate_token, (req, res) => {
+app.post('/donar_new_arbol', (req, res) => {
 	var body = req.body;
 	console.log(body);
 	var textura = {
@@ -110,7 +110,9 @@ app.post('/donar_new_arbol', sec.validate_token, (req, res) => {
 	mysql(con => {
 		con.query('SELECT perfil.id FROM perfil INNER JOIN token ON perfil.id = token.id_perfil WHERE token.token = ?', [body.token], (err, results) => {
 			console.log(err, results);
-			var id = results[0].id;
+			var id;
+			if(results.length)id = results[0].id;
+			else id = -1;
 			con.query('INSERT INTO arbol SET ?', {
 				id_creador: id,
 				modelo: body.modelo,
@@ -129,7 +131,7 @@ app.post('/donar_new_arbol', sec.validate_token, (req, res) => {
 	});
 });
 
-app.post('/devolver_arboles', sec.validate_token, (req, res) => {
+app.post('/devolver_arboles', (req, res) => {
 	mysql(con => {
 		con.query('SELECT * FROM arbol', (err, results) => {
 			var arboles = [];
